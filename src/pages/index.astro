@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="XStudio — Publishing infrastructure for technical ideas" description="A Git-native publishing studio where structured editing, MDX, review, and beautiful developer reading come together.">
+  <header class="site-header shell">
+    <a class="brand" href="/" aria-label="XStudio home"><span class="brand-mark">X</span><span>Studio</span></a>
+    <nav class="desktop-nav" aria-label="Primary">
+      <a href="#product">Product</a><a href="#workflow">Workflow</a><a href="/blog/generate-pdf-invoices-aspnet-core/">Example article</a>
+    </nav>
+    <div class="header-actions"><a class="text-link" href="/studio/">Sign in</a><a class="button small" href="/studio/">Open Studio <span>↗</span></a></div>
+  </header>
+
+  <main>
+    <section class="hero shell">
+      <div class="eyebrow"><span></span> The open publishing workspace for technical minds</div>
+      <h1>From first thought<br />to <em>trusted knowledge.</em></h1>
+      <p class="hero-copy">Write with the calm of a visual editor. Keep the portability of MDX. Review every change in Git. Publish a reading experience developers actually want to stay inside.</p>
+      <div class="hero-actions"><a class="button" href="/studio/">Start writing free <span>→</span></a><a class="button secondary" href="/blog/generate-pdf-invoices-aspnet-core/">Explore the reader</a></div>
+
+      <div class="product-stage" aria-label="XStudio product preview">
+        <div class="stage-top"><span class="stage-logo">X</span><span class="crumb">Acme Engineering&nbsp; / &nbsp;Platform handbook</span><span class="stage-search">⌘ K&nbsp;&nbsp; Search or ask</span><span class="avatar">AP</span></div>
+        <div class="stage-grid">
+          <aside class="stage-sidebar">
+            <div class="side-label">GETTING STARTED</div><a class="selected">Welcome</a><a>Quickstart</a><a>Core concepts</a>
+            <div class="side-label">BUILD</div><a>Authentication</a><a>API design</a><a>Deployment</a>
+          </aside>
+          <article class="stage-document">
+            <div class="doc-meta">ENGINEERING HANDBOOK</div><h2>Build systems people can trust.</h2><p>Practical conventions for designing, shipping, and operating software at Acme.</p>
+            <div class="callout"><strong>Start here</strong><span>Set up your local environment and ship your first change.</span><b>→</b></div>
+            <h3>A workflow made for change</h3><div class="code-lines"><i></i><i></i><i></i><i></i></div>
+          </article>
+          <aside class="stage-toc"><span>ON THIS PAGE</span><a class="active">Overview</a><a>Start here</a><a>Workflow</a><a>Next steps</a></aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="signal-strip"><div class="shell signals"><span>One source of truth</span><b>TIPTAP</b><b>MDX</b><b>GIT</b><b>ASTRO</b><b>GITBOOK</b></div></section>
+
+    <section class="feature-section shell" id="product">
+      <div class="section-heading"><div><span class="kicker">01 · CREATE</span><h2>A focused editor.<br />No format lock-in.</h2></div><p>XStudio turns a structured visual document into clean, portable content—so your knowledge belongs to you, not the editor that created it.</p></div>
+      <div class="feature-grid">
+        <article class="feature-card dark"><div class="card-tag">Structured authoring</div><h3>Think in ideas,<br />not markup.</h3><p>Slash commands, code blocks, callouts, embeds, reusable components, and keyboard-first writing.</p><div class="mini-editor"><div class="mini-tools">H1&nbsp;&nbsp; H2&nbsp;&nbsp; <b>B</b>&nbsp;&nbsp; <i>I</i>&nbsp;&nbsp; &lt;/&gt;</div><h4>The architecture decision</h4><div></div><div class="short"></div><div></div></div></article>
+        <article class="feature-card lime"><div class="card-tag">Portable by design</div><h3>Your content<br />stays yours.</h3><p>Round-trip between Tiptap, canonical JSON, MDX, Git, and publishing adapters without turning your archive into a hostage situation.</p><div class="orbit"><span>MDX</span><span>Git</span><strong>X</strong><span>Astro</span><span>API</span></div></article>
+      </div>
+    </section>
+
+    <section class="workflow-section" id="workflow"><div class="shell">
+      <div class="section-heading light"><div><span class="kicker">02 · COLLABORATE</span><h2>Publishing that works<br />like engineering.</h2></div><p>Branches, review, approvals, and a visible history for every meaningful change.</p></div>
+      <div class="workflow-steps"><article><span>01</span><h3>Draft</h3><p>Create visually or edit MDX directly. Both paths converge on one document model.</p></article><article><span>02</span><h3>Review</h3><p>See semantic changes, leave anchored comments, and protect important collections.</p></article><article><span>03</span><h3>Publish</h3><p>Merge once and deliver to Astro, GitBook, or external channels through adapters.</p></article></div>
+    </div></section>
+
+    <section class="final-cta shell"><span class="kicker">THE KNOWLEDGE LAYER</span><h2>Great ideas deserve<br />better infrastructure.</h2><p>Build the publication your engineering work has been waiting for.</p><a class="button" href="/studio/">Enter XStudio <span>→</span></a></section>
+  </main>
+
+  <footer class="footer shell"><a class="brand" href="/"><span class="brand-mark">X</span><span>Studio</span></a><p>Built for durable technical knowledge.</p><span>© 2026 XStudio</span></footer>
+</BaseLayout>
+
