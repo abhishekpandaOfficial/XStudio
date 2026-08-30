@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import StudioEditor from '../../components/StudioEditor';
+---
+
+<BaseLayout title="Editor — XStudio" description="Write, review, and publish technical knowledge from XStudio.">
+  <main class="studio-layout">
+    <aside class="studio-sidebar">
+      <a class="brand studio-brand" href="/"><span class="brand-mark">X</span><span>Studio</span></a>
+      <button class="workspace-switcher"><span class="workspace-icon">A</span><span><small>WORKSPACE</small>Acme Engineering</span><b>⌄</b></button>
+      <nav aria-label="Studio"><a class="active" href="/studio/"><span>✦</span> Content</a><a href="#"><span>⌕</span> Search</a><a href="#"><span>⌁</span> Git sync</a><a href="#"><span>↗</span> Publishing</a></nav>
+      <div class="sidebar-heading"><span>COLLECTIONS</span><button>+</button></div>
+      <nav class="collections"><a class="active"><span>▤</span> Engineering blog</a><a><span>▤</span> Product docs</a><a><span>▤</span> Architecture</a></nav>
+      <div class="sidebar-bottom"><a>⚙ Settings</a><div class="user-row"><span class="avatar">AP</span><span><b>Abhishek Panda</b><small>Owner</small></span><b>•••</b></div></div>
+    </aside>
+    <section class="studio-main">
+      <header class="studio-topbar"><div class="breadcrumbs"><span>Engineering blog</span><b>/</b><span>Designing an API that ages well</span></div><div class="top-actions"><button>Preview</button><button class="publish-button">Publish <span>⌄</span></button><span class="more">•••</span></div></header>
+      <div class="editor-workspace">
+        <div class="editor-meta"><span class="status-pill">DRAFT</span><span>Last edited just now</span><button>＋ Add cover</button></div>
+        <StudioEditor client:load />
+      </div>
+    </section>
+    <aside class="studio-inspector">
+      <div class="inspector-tabs"><button class="active">Outline</button><button>Settings</button></div>
+      <nav><a class="active">Designing an API that ages well</a><a>Start with the boundary</a></nav>
+      <div class="inspector-card"><span>CONTENT SCORE</span><div><strong>84</strong><small>/ 100</small></div><p>Clear structure. Add a summary and one internal link.</p></div>
+    </aside>
+  </main>
+</BaseLayout>
+

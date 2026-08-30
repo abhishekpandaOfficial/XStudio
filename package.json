@@ -1,0 +1,30 @@
+{
+  "name": "xstudio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.3.6",
+    "@astrojs/react": "^4.3.0",
+    "@tiptap/extension-code-block-lowlight": "^3.4.2",
+    "@tiptap/react": "^3.4.2",
+    "@tiptap/starter-kit": "^3.4.2",
+    "astro": "^5.13.5",
+    "lowlight": "^3.3.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "typescript": "^5.9.2"
+  }
+}
+
