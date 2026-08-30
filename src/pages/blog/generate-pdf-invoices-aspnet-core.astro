@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Generate PDF invoices in ASP.NET Core — XStudio" description="Build a production-minded PDF invoice endpoint with ASP.NET Core, queues, and reliable rendering.">
+  <header class="article-header"><div class="article-header-inner"><a class="brand" href="/"><span class="brand-mark">X</span><span>Studio</span></a><div class="article-search">⌕&nbsp;&nbsp; Search articles <kbd>⌘K</kbd></div><nav><a href="/">Home</a><a href="#">Topics</a><a class="button small" href="/studio/">Write</a></nav></div></header>
+  <main class="article-layout">
+    <aside class="article-series">
+      <a class="series-back" href="/">← All publications</a><div class="series-title"><span>.NET</span><div><b>Production Web APIs</b><small>151 lessons</small></div></div>
+      <div class="series-progress"><div><span>COURSE PROGRESS</span><b>60%</b></div><i><em></em></i></div>
+      <nav><span class="nav-group">FOUNDATIONS</span><a><b>87</b>Background jobs</a><a><b>88</b>File storage</a><a><b>89</b>HTML templates</a><a class="active"><b>90</b><span>Generate PDF invoices<small>29 min</small></span></a><a><b>91</b>Email delivery</a><a><b>92</b>Observability</a></nav>
+    </aside>
+    <article class="article-content">
+      <a class="back-link" href="/">← Back to blog</a>
+      <div class="article-tags"><span>.NET</span><span>ASP.NET CORE</span><span>LESSON 90 / 151</span></div>
+      <h1>Generate production-ready PDF invoices in ASP.NET Core</h1>
+      <p class="article-deck">Build a real invoice endpoint with deterministic HTML, page-break control, repeating headers, culture-aware currency, and a render queue that survives traffic spikes.</p>
+      <div class="author-line"><span class="avatar large">AP</span><div><b>Abhishek Panda</b><small>AI Solution Architect · Aug 30, 2026 · 29 min read</small></div><button>Follow</button></div>
+      <div class="article-hero-code"><div class="window-bar"><i></i><i></i><i></i><span>InvoiceEndpoint.cs</span></div><pre><code><span class="violet">app</span>.MapPost(<span class="green">"/invoices/&#123;id:guid&#125;/pdf"</span>, <span class="violet">async</span> (
+    Guid id, IInvoicePdfQueue queue, CancellationToken ct) =&gt;
+&#123;
+    <span class="violet">var</span> job = <span class="violet">await</span> queue.EnqueueAsync(id, ct);
+    <span class="violet">return</span> Results.Accepted(<span class="green">$"/pdf-jobs/&#123;job.Id&#125;"</span>, job);
+&#125;);</code></pre></div>
+      <div class="learning-box"><strong>What you’ll build</strong><p>A queued rendering pipeline that separates the request path from browser work, returns traceable job IDs, and produces consistent invoice files.</p></div>
+      <section id="why"><span class="section-number">01</span><h2>Why PDF generation becomes an architecture problem</h2><p>Rendering one invoice is easy. Rendering thousands safely is where the design earns its keep. A browser process consumes memory, external assets can stall, and retries may create duplicate work.</p><p>The endpoint should validate intent and enqueue work. A bounded worker owns rendering. Storage owns the finished artifact. That separation protects API latency while keeping failure visible.</p><blockquote><strong>Design rule</strong><p>Treat document rendering as a workload, not a formatting helper.</p></blockquote></section>
+      <section id="pipeline"><span class="section-number">02</span><h2>Shape the rendering pipeline</h2><div class="pipeline"><span>API request</span><b>→</b><span>Bounded queue</span><b>→</b><span>HTML renderer</span><b>→</b><span>Object storage</span></div><p>The job record is the spine of this flow. It carries status, attempt count, output location, failure reason, and a correlation ID. Clients poll the status endpoint or receive a webhook when processing finishes.</p>
+      <div class="code-block"><div class="code-title"><span>InvoicePdfJob.cs</span><button>Copy</button></div><pre><code><span class="violet">public sealed record</span> InvoicePdfJob(
+    Guid Id,
+    Guid InvoiceId,
+    PdfJobStatus Status,
+    <span class="blue">int</span> Attempt,
+    Uri? DownloadUrl,
+    <span class="blue">string</span>? FailureReason);</code></pre></div></section>
+      <section id="css"><span class="section-number">03</span><h2>Make print CSS deterministic</h2><p>Invoice HTML is a versioned contract. Pin fonts, inline critical assets, declare page size, and test long tables rather than hoping the browser makes tasteful decisions.</p>
+      <div class="code-block"><div class="code-title"><span>invoice.css</span><button>Copy</button></div><pre><code><span class="violet">@page</span> &#123; size: A4; margin: 18mm 14mm; &#125;
+thead &#123; display: table-header-group; &#125;
+tr &#123; break-inside: avoid; &#125;
+.totals &#123; break-inside: avoid; margin-top: 24px; &#125;</code></pre></div></section>
+      <section id="recap"><span class="section-number">04</span><h2>Production checklist</h2><ul class="checklist"><li>Bound concurrency and enforce a render timeout.</li><li>Sanitize untrusted HTML and block arbitrary network access.</li><li>Make jobs idempotent with a stable invoice-version key.</li><li>Record render duration, failures, queue depth, and file size.</li><li>Expire temporary files with a storage lifecycle policy.</li></ul></section>
+      <div class="next-lesson"><span>NEXT LESSON · 91</span><h3>Deliver invoices reliably with email and webhooks</h3><a href="#">Continue →</a></div>
+    </article>
+    <aside class="article-toc"><span>ON THIS PAGE</span><nav><a class="active" href="#why">Why architecture matters</a><a href="#pipeline">Rendering pipeline</a><a href="#css">Deterministic print CSS</a><a href="#recap">Production checklist</a></nav><div class="toc-card"><span>FOUND THIS USEFUL?</span><p>Get one practical architecture article every week.</p><button>Subscribe free →</button></div></aside>
+  </main>
+</BaseLayout>
