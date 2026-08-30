@@ -16,6 +16,7 @@ import {
   type TiptapDocument,
 } from '../lib/document-model';
 import { createPublishPlan, publishTargets, type PublishTargetId } from '../lib/publishing';
+import { saveDraft as saveRemoteDraft, type WorkflowStatus } from '../lib/content-repository';
 
 const lowlight = createLowlight(common);
 const DRAFT_KEY = 'xstudio:draft:designing-an-api-that-ages-well';
@@ -81,10 +82,16 @@ export default function StudioEditor() {
   const persistDraft = (nextDocument: CanonicalDocument, nextMdx: string) => {
     setSaveState('saving');
     if (saveTimer.current) clearTimeout(saveTimer.current);
-    saveTimer.current = setTimeout(() => {
+    saveTimer.current = setTimeout(async () => {
       localStorage.setItem(DRAFT_KEY, JSON.stringify({ document: nextDocument, mdx: nextMdx }));
+      const savedAt = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      try {
+        const destination = await saveRemoteDraft(nextDocument, nextMdx);
+        setLastSaved(destination === 'remote' ? `to Supabase ${savedAt}` : destination === 'needs-auth' ? 'locally · sign in to sync' : destination === 'needs-workspace' ? 'locally · create a workspace to sync' : `locally ${savedAt}`);
+      } catch {
+        setLastSaved(`locally ${savedAt} · remote retry needed`);
+      }
       setSaveState('saved');
-      setLastSaved(new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
     }, 650);
   };
 
@@ -147,6 +154,16 @@ export default function StudioEditor() {
     persistDraft(nextDocument, value);
   };
 
+  const updateStatus = (status: WorkflowStatus) => {
+    const nextDocument: CanonicalDocument = {
+      ...document,
+      metadata: { ...document.metadata, status: status as CanonicalDocument['metadata']['status'], updatedAt: new Date().toISOString() },
+    };
+    setDocument(nextDocument);
+    setMdx(canonicalToMdx(nextDocument));
+    persistDraft(nextDocument, canonicalToMdx(nextDocument));
+  };
+
   const toggleTarget = (target: PublishTargetId) => {
     setSelectedTargets((current) => current.includes(target) ? current.filter((item) => item !== target) : [...current, target]);
     setPlanCreated(false);
@@ -175,7 +192,7 @@ export default function StudioEditor() {
             </button>
           ))}
         </div>
-        <div className="document-health"><span>{wordCount} words</span><span>Revision {document.metadata.revision}</span><span className={`save-state ${saveState}`}><i></i>{saveState === 'saved' ? `Saved ${lastSaved}` : saveState}</span></div>
+        <div className="document-health"><label className="workflow-select"><i className={document.metadata.status}></i><select aria-label="Workflow status" value={document.metadata.status} onChange={(event) => updateStatus(event.target.value as WorkflowStatus)}><option value="draft">Draft</option><option value="review">In review</option><option value="scheduled" disabled>Scheduled via release</option><option value="published" disabled>Published via release</option></select></label><span>{wordCount} words</span><span>Revision {document.metadata.revision}</span><span className={`save-state ${saveState}`}><i></i>{saveState === 'saved' ? `Saved ${lastSaved}` : saveState}</span></div>
         <button className="open-publish" onClick={() => setShowPublish(true)}>Publish <span>↗</span></button>
       </div>
 
@@ -225,4 +242,3 @@ export default function StudioEditor() {
     </section>
   );
 }
-
